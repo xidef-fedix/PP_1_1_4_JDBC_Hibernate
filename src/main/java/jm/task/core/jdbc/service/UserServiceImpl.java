@@ -9,37 +9,28 @@ import java.util.List;
 
 public class UserServiceImpl extends UserDaoJDBCImpl implements UserService {
 
-    UserDao udjd = new UserDaoJDBCImpl();
-
     public void createUsersTable() {
-
-        udjd.createUsersTable();
+        super.createUsersTable();
     }
 
     public void dropUsersTable() {
-        udjd.dropUsersTable();
+        super.dropUsersTable();
 
     }
 
     public void saveUser(String name, String lastName, byte age) {
-
-    udjd.saveUser(name, lastName, age);
-        System.out.println("User с именем " + name + " добавлен в базу данных");
+        super.saveUser(name, lastName, age);
     }
 
     public void removeUserById(long id) {
-
-    udjd.removeUserById(id);
+        super.removeUserById(id);
     }
 
     public List<User> getAllUsers() {
-
-      return udjd.getAllUsers();
-
+        return super.getAllUsers();
     }
 
     public void cleanUsersTable() {
-        udjd.cleanUsersTable();
-
+        super.cleanUsersTable();
     }
 }
