@@ -7,6 +7,8 @@ import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.service.UserService;
 import jm.task.core.jdbc.service.UserServiceImpl;
 import jm.task.core.jdbc.util.Util;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -15,9 +17,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-       Util util = new Util();
-       util.connectToBase();
-       util.createBase();
        UserService userService = new UserServiceImpl();
        userService.createUsersTable();
        userService.saveUser("Pavel", "Galkin", (byte) 32);

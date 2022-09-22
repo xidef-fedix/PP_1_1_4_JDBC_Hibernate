@@ -13,8 +13,22 @@ import java.util.List;
 public class UserDaoJDBCImpl extends Util implements UserDao {
     public UserDaoJDBCImpl() {
     }
-    private String sql;
+    public void createBase() {
+        try {
+            var createBase = getConnect()
+                    .createStatement()
+                    .execute("CREATE DATABASE IF NOT EXISTS users;");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                getConnect().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
+    }
     public void createUsersTable() {
         try {
             getConnect()
@@ -26,6 +40,12 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
                             " age TINYINT);");
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                getConnect().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public void dropUsersTable() {
@@ -33,28 +53,46 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             getConnect().createStatement().execute("DROP TABLE IF EXISTS users");
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                getConnect().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public void saveUser(String name, String lastName, byte age) {
-        sql = "INSERT INTO users (name, lastname, age) VALUES ( ?, ?, ?)";
         try {
-            PreparedStatement statement = getConnect().prepareStatement(sql);
+            PreparedStatement statement = getConnect()
+                    .prepareStatement("INSERT INTO users (name, lastname, age) VALUES ( ?, ?, ?)");
             statement.setString(1, name);
             statement.setString(2, lastName);
             statement.setByte(3, age);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                getConnect().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public void removeUserById(long id) {
-        sql = "DELETE FROM users WHERE id = ?";
         try {
-            PreparedStatement statement = getConnect().prepareStatement(sql);
+            PreparedStatement statement = getConnect()
+                    .prepareStatement("DELETE FROM users WHERE id = ?");
             statement.setLong(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                getConnect().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
     public List<User> getAllUsers() {
@@ -72,18 +110,29 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                getConnect().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return usersList;
 
     }
     public void cleanUsersTable() {
-        sql = "TRUNCATE TABLE users";
         Statement statement = null;
         try {
             statement = getConnect().createStatement();
-            statement.execute(sql);
+            statement.execute("TRUNCATE TABLE users");
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            try {
+                getConnect().close();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 }
