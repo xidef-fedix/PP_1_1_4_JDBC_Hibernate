@@ -25,19 +25,14 @@ public class Main {
        userService.saveUser("Anna", "Fedko", (byte) 22);
        List<User> userList =  userService.getAllUsers();
             for (int i = 0; i < userList.size(); i++) {
-                System.out.println("User с именем " + userList.get(i).getName() + " добавлен в базу данных");
+                System.out.println("User с именем "
+                        + userList.get(i).getName()
+                        + " добавлен в базу данных");
             }
-       System.out.println(userService.getAllUsers());
+            for (int i = 0; i < userList.size(); i++) {
+                System.out.println(userList.get(i));
+            }
        userService.cleanUsersTable();
        userService.dropUsersTable();
-
-
-
-
-
-
-
-
-
     }
 }
